@@ -15,5 +15,6 @@
     "@tsparticles/engine": "^4.3.2",
     "@tsparticles/react": "^4.3.2"
   },
-  "type": "module"
+  "type": "module",
+  "license": "MIT"
 }

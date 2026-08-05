@@ -13,5 +13,6 @@
   "dependencies": {
     "@ajrojasfuentes/core": "^1.0.0"
   },
-  "type": "module"
+  "type": "module",
+  "license": "MIT"
 }
