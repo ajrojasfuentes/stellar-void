@@ -1,0 +1,30 @@
+/* ==========================================================================
+ * StellarVoid — Nebula Drift Animations
+ * These keyframes produce the slow, organic drift of the nebula glow layers
+ * rendered by the BackLayer component.
+ * ========================================================================== */
+
+@keyframes drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(2vw, 3vh) scale(1.05); }
+}
+
+@keyframes drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-3vw, 2vh) scale(1.1); }
+}
+
+@keyframes drift-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(2vw, -2vh) scale(0.95); }
+}
+
+@keyframes drift-4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-2vw, -3vh) scale(1.05); }
+}
+
+.nebula-1 { animation: drift-1 40s ease-in-out infinite; will-change: transform; }
+.nebula-2 { animation: drift-2 55s ease-in-out infinite; will-change: transform; }
+.nebula-3 { animation: drift-3 45s ease-in-out infinite; will-change: transform; }
+.nebula-4 { animation: drift-4 60s ease-in-out infinite; will-change: transform; }

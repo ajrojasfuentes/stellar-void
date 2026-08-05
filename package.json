@@ -1,0 +1,24 @@
+{
+  "name": "stellar-void-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "Tests/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.6.0",
+    "@tsparticles/engine": "^4.3.2",
+    "@tsparticles/react": "^4.3.2"
+  },
+  "type": "module",
+  "version": "0.0.2"
+}

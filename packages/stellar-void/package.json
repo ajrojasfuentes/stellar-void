@@ -1,0 +1,27 @@
+{
+  "name": "@ajrojasfuentes/stellar-void",
+  "version": "1.0.2",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc && npm run copy-assets",
+    "copy-assets": "mkdir -p assets dist && cp -r ../../assets/* assets/ && cp ../background/src/styles.css dist/styles.css"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "@ajrojasfuentes/core": "^1.0.0",
+    "@ajrojasfuentes/background": "^1.0.0",
+    "@ajrojasfuentes/constellations": "^1.0.0",
+    "@ajrojasfuentes/planets": "^1.0.0",
+    "@ajrojasfuentes/travelers": "^1.0.0",
+    "@tsparticles/engine": "^4.3.2",
+    "@tsparticles/react": "^4.3.2",
+    "tsparticles": "^4.3.2",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.6.0"
+  },
+  "type": "module"
+}
