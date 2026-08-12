@@ -83,6 +83,12 @@ export function TravelerSpawner({
     const spawnTraveler = () => {
       if (!isMounted.current || !container) return;
 
+      // Prevent spawning when the tab is hidden to avoid sudden bursts of travelers when returning
+      if (typeof document !== 'undefined' && document.hidden) {
+        scheduleNextSpawn();
+        return;
+      }
+
       try {
         // Safe check for canvas dimensions to prevent physics engine crash
         const w = container.canvas?.size?.width || 0;

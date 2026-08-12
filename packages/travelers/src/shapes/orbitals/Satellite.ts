@@ -2,8 +2,8 @@ import type { Particle } from "@tsparticles/engine";
 import { Orbitals } from "./Orbitals";
 
 export class Satellite extends Orbitals {
-  constructor(basePath: string) {
-    super("satellite", `${basePath}/satellite.webp`, 0.8);
+  constructor() {
+    super("satellite", 0.8);
   }
 
   protected override drawExtras(ctx: CanvasRenderingContext2D, radius: number, opacity: number, particle: Particle, pData: any) {

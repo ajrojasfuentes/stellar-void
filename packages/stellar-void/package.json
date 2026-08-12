@@ -5,7 +5,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc && npm run copy-assets",
-    "copy-assets": "mkdir -p assets dist && cp -r ../../assets/* assets/ && cp ../background/src/styles.css dist/styles.css"
+    "copy-assets": "mkdir -p dist && cp ../background/src/styles.css dist/styles.css"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

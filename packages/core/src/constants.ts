@@ -1,5 +1,5 @@
 /**
- * @fileoverview Defines core constants used across Stellar Void packages.
+ * @fileoverview Global constants for the StellarVoid library.
  */
 
-export const DEFAULT_CDN_PATH = "https://cdn.jsdelivr.net/npm/@ajrojasfuentes/stellar-void@1.0.1/assets";
+// CDN path removed — all assets are now embedded as base64 in sprites.ts

@@ -2,8 +2,8 @@ import type { Particle } from "@tsparticles/engine";
 import { Aliens } from "./Aliens";
 
 export class Invader extends Aliens {
-  constructor(basePath: string) {
-    super("invader", `${basePath}/invader.webp`, 0.65);
+  constructor() {
+    super("invader", 0.65);
   }
 
   override initKinematics(particle: Particle, pData: any) {

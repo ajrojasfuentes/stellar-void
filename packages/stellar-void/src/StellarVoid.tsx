@@ -12,28 +12,28 @@ import { TravelersLayer } from "@ajrojasfuentes/travelers";
 export interface StellarVoidProps {
   className?: string;
   enableNebulae?: boolean;
+  batterySaver?: boolean;
   config?: Partial<StellarVoidThemeConfig>;
-  assetBasePath?: string;
   children?: React.ReactNode;
 }
 
 /**
  * StellarVoid Provider & Facade component.
  */
-export function StellarVoid({ className, enableNebulae = true, assetBasePath, config, children }: StellarVoidProps) {
-  const configOverrides = useMemo(() => {
-    return assetBasePath ? { ...config, assetBasePath } : config;
-  }, [config, assetBasePath]);
-
+export function StellarVoid({ className, enableNebulae = true, batterySaver, config, children }: StellarVoidProps) {
   const initEngine = useCallback(async (engine: any) => {
-    return initStellarVoidEngine(engine, configOverrides?.assetBasePath);
-  }, [configOverrides?.assetBasePath]);
+    return initStellarVoidEngine(engine);
+  }, []);
+
+  const mergedConfig = useMemo(() => {
+    return batterySaver !== undefined ? { ...config, batterySaver } : config;
+  }, [config, batterySaver]);
 
   // Facade pattern: if no children provided, render default layers
   const hasChildren = React.Children.count(children) > 0;
 
   return (
-    <StellarVoidConfigProvider config={configOverrides}>
+    <StellarVoidConfigProvider config={mergedConfig}>
       <div className={`fixed inset-0 w-full h-full bg-[#030014] overflow-hidden z-0 ${className || ""}`}>
         {hasChildren ? (
           <ParticlesProvider init={initEngine}>

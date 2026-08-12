@@ -25,6 +25,7 @@ export function ConstellationsLayer() {
     // Deep clone and merge config
     const mergedConfig = {
       ...s,
+      fpsLimit: config.batterySaver ? 30 : s.fpsLimit,
       interactivity: {
         ...s.interactivity,
         modes: {

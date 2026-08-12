@@ -3,7 +3,6 @@
  * @description Custom shape drawer for tsParticles that renders different traveler entities.
  */
 import type { IShapeDrawer, IShapeDrawData } from "@tsparticles/engine";
-import { DEFAULT_CDN_PATH } from "@ajrojasfuentes/core";
 import { Asteroid } from "./astrals/Asteroid";
 import { Meteor } from "./astrals/Meteor";
 import { Comet } from "./astrals/Comet";
@@ -21,11 +20,7 @@ type TravelerType = "asteroid" | "meteor" | "comet" | "boulder" | "satellite" | 
  * Custom shape drawer that delegates drawing logic to specific traveler entities.
  */
 export class TravelerDrawer implements IShapeDrawer {
-  private assetBasePath: string;
-
-  constructor(assetBasePath: string = DEFAULT_CDN_PATH) {
-    this.assetBasePath = assetBasePath;
-  }
+  constructor() {}
   /**
    * Draws the custom shape for a given particle.
    * @param data - The data containing the context and particle to draw.
@@ -47,7 +42,7 @@ export class TravelerDrawer implements IShapeDrawer {
 
     // Lazy instantiation of the proper Entity OOP instance
     if (!pData.entity) {
-      pData.entity = this.createEntity(type, this.assetBasePath);
+      pData.entity = this.createEntity(type);
     }
     
     const entity = pData.entity as BaseEntity;
@@ -87,16 +82,16 @@ export class TravelerDrawer implements IShapeDrawer {
    * @param type - The type of traveler.
    * @returns A new BaseEntity instance corresponding to the given type.
    */
-  private createEntity(type: TravelerType, basePath: string): BaseEntity {
+  private createEntity(type: TravelerType): BaseEntity {
     switch (type) {
       case "asteroid": return new Asteroid();
       case "meteor": return new Meteor();
       case "comet": return new Comet();
-      case "boulder": return new Boulder(basePath);
-      case "satellite": return new Satellite(basePath);
-      case "ufo-1": return new Ufo1(basePath);
-      case "ufo-2": return new Ufo2(basePath);
-      case "invader": return new Invader(basePath);
+      case "boulder": return new Boulder();
+      case "satellite": return new Satellite();
+      case "ufo-1": return new Ufo1();
+      case "ufo-2": return new Ufo2();
+      case "invader": return new Invader();
       default: return new Asteroid();
     }
   }

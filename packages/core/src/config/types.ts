@@ -40,7 +40,7 @@ export interface ConstellationsConfig {
 /**
  * The specific types of planets that can be rendered.
  */
-export type PlanetType = "geoid" | "saturnian" | "gaseous" | "iceous" | "lunar" | "binary" | "orbital";
+export type PlanetType = "geoid" | "saturnian" | "gaseous" | "iceous" | "lunar" | "orbital";
 
 /**
  * Configuration for an individual planet instance.
@@ -56,6 +56,8 @@ export interface PlanetInstanceConfig {
   opacity: RangeValue;
   /** The speed or range of speeds for the planet */
   speed: RangeValue;
+  /** The rotation speed or range of rotation speeds for the planet (radians per frame). Defaults to 0.5 */
+  rotationSpeed?: RangeValue;
 }
 
 /**
@@ -108,6 +110,6 @@ export interface StellarVoidThemeConfig {
   planets: PlanetInstanceConfig[];
   /** Travelers layer configuration */
   travelers: TravelersConfig;
-  /** Base path for all loaded sprite assets. Defaults to '/sprites' */
-  assetBasePath?: string;
+  /** Enable battery saver mode to cap framerates and improve performance on mobile devices */
+  batterySaver?: boolean;
 }

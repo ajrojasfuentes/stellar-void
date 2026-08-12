@@ -16,10 +16,11 @@
 
 - 🌌 **Zero Configuration Needed**: Works completely out-of-the-box.
 - 🧩 **Extreme Modularity (Compound Components)**: Compose your own universe by rendering only the layers you need.
-- ⚡ **Plug & Play Assets via CDN**: All heavy graphical assets (WebP sprites) are seamlessly streamed via the **jsDelivr CDN**, keeping your JavaScript bundle incredibly lightweight.
+- ⚡ **Zero Network Dependencies**: All graphical assets (optimized WebP sprites) are embedded directly as base64 strings in the core package. No external network requests, no CDNs, and zero loading flickers.
+- 🔋 **Performance & Battery Saver**: Respects user OS preferences (`prefers-reduced-motion`) and offers a dedicated `batterySaver` mode to cap framerates and disable heavy physics on low-end devices. Prevents memory leaks with an internal garbage collector and avoids "spawn bursts" when the browser tab is hidden.
 - 🎨 **Deeply Customizable**: Tweak star counts, planetary speed, sizes, and traveler spawn probabilities.
 - 🖱️ **Interactive**: Constellations react to user mouse movements (grab and repulse effects).
-- 🛡️ **Fully Typed**: Built with TypeScript for excellent developer experience (DX).
+- 🛡️ **Fully Typed**: Built with TypeScript for excellent developer experience (DX) and comprehensive IDE autocompletion.
 
 ---
 
@@ -79,7 +80,7 @@ import '@ajrojasfuentes/stellar-void/dist/styles.css';
 
 export default function CustomUniverse() {
   return (
-    <StellarVoid>
+    <StellarVoid batterySaver={true}>
       {/* 1. Deep space background with optional nebulae */}
       <StellarVoid.Background enableNebulae={true} />
       
@@ -100,7 +101,7 @@ export default function CustomUniverse() {
 
 ## ⚙️ Configuration & API Reference
 
-Stellar Void can be fully customized by passing a `config` object to the main component.
+Stellar Void can be fully customized by passing a `config` object to the main component. 
 
 ### `<StellarVoid />` Props
 
@@ -108,58 +109,63 @@ Stellar Void can be fully customized by passing a `config` object to the main co
 | :--- | :--- | :--- | :--- |
 | `className` | `string` | `undefined` | Additional CSS classes applied to the root wrapper. |
 | `enableNebulae` | `boolean` | `true` | If true, renders the animated nebulae in the background layer. |
+| `batterySaver` | `boolean` | `false` | Caps framerate to 30 FPS across all layers for better performance on mobile or low-end devices. |
 | `config` | `Partial<StellarVoidThemeConfig>`| `{}` | The configuration object to override default parameters. |
-| `assetBasePath` | `string` | `DEFAULT_CDN_PATH` | Path from where to load `.webp` sprites. By default, relies on a global jsDelivr CDN link. |
 
-### The `config` Object (`StellarVoidThemeConfig`)
+### TypeScript Autocompletion & Customization
 
-You can override any specific piece of the configuration. Below is a subset of the available customizable properties:
+The project is heavily typed. By importing `StellarVoidThemeConfig`, your IDE (like VSCode) will provide rich autocompletion and hover documentation for all available parameters.
 
 ```tsx
-<StellarVoid 
-  config={{
-    constellations: {
-      starsCount: 300,             // More stars!
-      starsOpacity: { min: 0.1, max: 1 },
-      starsSpeed: 0.3,
-      interactivity: {
-        repulseDistance: 200,      // Mouse repels stars further away
-      }
-    },
-    planets: [
-      // Define exactly what planets you want
-      { id: "my-moon", type: "lunar", size: 40, opacity: { min: 0.8, max: 1 }, speed: { min: 0.2, max: 0.5 } }
-    ],
-    travelers: {
-      spawnIntervalMin: 10000,     // Spawn a traveler every 10 to 30 seconds
-      spawnIntervalMax: 30000,
-      probabilities: {
-        common: 0.5,
-        uncommon: 0.3,
-        rare: 0.2
-      }
+import type { StellarVoidThemeConfig } from '@ajrojasfuentes/core';
+
+// Your IDE will suggest properties inside this object!
+const myUniverseConfig: Partial<StellarVoidThemeConfig> = {
+  constellations: {
+    starsCount: 300,             // More stars!
+    starsOpacity: { min: 0.1, max: 1 },
+    starsSpeed: 0.3,
+    interactivity: {
+      repulseDistance: 200,      // Mouse repels stars further away
     }
-  }} 
-/>
+  },
+  planets: [
+    // Define exactly what planets you want
+    { id: "my-moon", type: "lunar", size: 40, opacity: { min: 0.8, max: 1 }, speed: { min: 0.2, max: 0.5 } }
+  ],
+  travelers: {
+    spawnIntervalMin: 10000,     // Spawn a traveler every 10 to 30 seconds
+    spawnIntervalMax: 30000,
+    probabilities: {
+      common: 0.5,
+      uncommon: 0.3,
+      rare: 0.2
+    }
+  }
+};
+
+export default function App() {
+  return <StellarVoid config={myUniverseConfig} />;
+}
 ```
 
 #### Planet Types Supported
-`"geoid" | "saturnian" | "gaseous" | "iceous" | "lunar" | "binary" | "orbital"`
+`"geoid" | "saturnian" | "gaseous" | "iceous" | "lunar" | "orbital"`
 
 #### Traveler Types Supported
 `"asteroid" | "meteor" | "comet" | "boulder" | "satellite" | "ufo-1" | "ufo-2" | "invader"`
 
 ---
 
-## 🌍 Architecture & Asset Distribution (CDN)
+## 🌍 Architecture & Performance 
 
-One of the greatest features of **Stellar Void** is its Asset Distribution approach. High-quality WebP textures for planets, moons, and asteroids are relatively heavy.
+One of the major performance optimizations in **Stellar Void** is its asset handling strategy.
 
-Instead of bundling these images directly into your application (which would increase your Time-To-Interactive and bundle size), Stellar Void points its `assetBasePath` dynamically to **jsDelivr**, a reliable, free, and blazing-fast open-source CDN. 
+Instead of relying on external Content Delivery Networks (CDNs) or forcing developers to copy heavy `public/` assets, all graphical textures (planets, moons, and asteroids) have been aggressively optimized to tiny `.webp` files (ranging from 800 bytes to 10 KB).
 
-When your users load your application, the sprites are streamed asynchronously and cached by the browser natively.
+These ultra-light assets are **directly embedded as base64 data URIs** within the core package. When your users load your application, the sprites are instantly decoded and cached in memory using `createImageBitmap()`, completely eliminating network waterfalls, layout shifts, or flashes of unstyled content (FOUC).
 
-*If you prefer hosting the assets yourself, you can download the `/assets` folder from our repository, place it in your `public` folder, and pass `assetBasePath="/path/to/your/assets"`.*
+Additionally, the internal `TravelerSpawner` utilizes an active Garbage Collector to destroy out-of-bounds particles, preserving memory, and checks `document.hidden` to pause spawning when the browser tab is not active, preventing CPU spikes.
 
 ---
 
@@ -169,7 +175,7 @@ We are actively maintaining and expanding Stellar Void. Here is a glimpse of wha
 
 - [ ] **React Server Components (RSC) Support**: Optimization to ensure `<StellarVoid />` can be cleanly imported in Next.js 14+ App Router without `use client` wrapper issues.
 - [ ] **Black Holes & Wormholes**: New `StellarVoid.Anomalies` layer to add gravitational lensing effects using WebGL.
-- [ ] **Custom Traveler Injector**: API to allow developers to pass their own `.png`/`.webp` paths to be used as flying objects in the `Travelers` layer.
+- [ ] **Custom Base64 Sprite Injector**: API to allow developers to pass their own Base64 data URIs to be used as flying objects in the `Travelers` layer.
 - [ ] **Parallax Scroll Effect**: Tying the particles' Y-axis movement to the window's scroll position for a deep 3D illusion.
 
 ---

@@ -12,4 +12,5 @@ export * from "./config/ConfigContext";
 export * from "./config/defaultConfig";
 export * from "./config/types";
 export * from "./utils/cn";
-export * from "./constants";
+export * from "./hooks/useResponsiveScale";
+export { preloadAllSprites, getSpriteBitmap, SPRITES } from './sprites';
